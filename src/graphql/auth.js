@@ -2,21 +2,27 @@ import { AuthDetailsFragment } from "./fragments";
 import gql from "graphql-tag";
 
 export default {
-  LOG_IN: gql`
-    mutation($email: String!, $password: String!) {
-      login(email: $email, password: $password) {
-        ...AuthDetails
+  LOG_IN: variables => ({
+    mutation: gql`
+      mutation($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
+          ...AuthDetails
+        }
       }
-    }
-    ${AuthDetailsFragment}
-  `,
+      ${AuthDetailsFragment}
+    `,
+    variables
+  }),
 
-  SIGN_UP: gql`
-    mutation($email: String!, $password: String!, $name: String!) {
-      signup(email: $email, password: $password, name: $name) {
-        ...AuthDetails
+  SIGN_UP: variables => ({
+    mutation: gql`
+      mutation($email: String!, $password: String!, $name: String!) {
+        signup(email: $email, password: $password, name: $name) {
+          ...AuthDetails
+        }
       }
-    }
-    ${AuthDetailsFragment}
-  `
+      ${AuthDetailsFragment}
+    `,
+    variables
+  })
 };

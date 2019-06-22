@@ -12,7 +12,7 @@ export default new Vuex.Store({
     },
     device: "desktop",
     avatar: "",
-    routes: [
+    permission_routes: [
       {
         meta: {
           activeMenu: true,
@@ -38,7 +38,13 @@ export default new Vuex.Store({
         path: "/dashboard/all-events"
       }
     ],
-    eventDetails: {}
+    eventDetails: {
+      name: "",
+      startAt: null,
+      endAt: null,
+      maxSeats: 100
+    },
+    events: []
   },
   mutations: {
     updateAuth(state, payload) {
@@ -54,6 +60,19 @@ export default new Vuex.Store({
     },
     clearEventDetails(state) {
       state.eventDetails = {};
+    },
+    updateEvents(state, value) {
+      state.events = value;
+    },
+    updateSingleEventDetail(state, { key, value }) {
+      state.eventDetails[key] = value;
+    },
+    resetEventDetails(state) {
+      state.eventDetails = {
+        name: "",
+        startAt: null,
+        maxSeats: 100
+      };
     }
   },
   actions: {},
@@ -62,7 +81,8 @@ export default new Vuex.Store({
     sidebar: state => state.sidebar,
     device: state => state.device,
     avatar: state => state.avatar,
-    permission_routes: state => state.routes,
-    eventDetails: state => state.eventDetails
+    permission_routes: state => state.permission_routes,
+    eventDetails: state => state.eventDetails,
+    eventsList: state => state.events
   }
 });

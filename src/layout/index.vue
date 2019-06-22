@@ -1,8 +1,8 @@
 <template>
   <div>
     <Navbar />
-    <Sidebar />
-    <router-view />
+    <Sidebar v-if="!$route.fullPath.includes('/event')" />
+    <router-view class="main-content" />
   </div>
 </template>
 
@@ -14,3 +14,13 @@ export default {
   components: { Sidebar, Navbar }
 };
 </script>
+
+<style lang="scss">
+.main-content {
+  margin: 20px 10px 0 60px;
+}
+
+.sidebar {
+  z-index: 1000;
+}
+</style>

@@ -1,10 +1,19 @@
 <template>
   <div class="navbar">
     <hamburger
+      v-if="!$route.fullPath.includes('/event')"
       id="hamburger-container"
       :is-active="sidebar.opened"
       class="hamburger-container"
       @toggleClick="toggleSideBar"
+    />
+
+    <i
+      v-if="$route.fullPath.includes('/event')"
+      id="hamburger-container"
+      class="el-icon-back hamburger-container"
+      style="font-size: 20px; padding: 0 10px;"
+      @click="$router.push('/dashboard/all-events')"
     />
 
     <div class="right-menu">

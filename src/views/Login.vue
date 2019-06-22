@@ -160,13 +160,12 @@ export default {
         if (valid) {
           this.loading = true;
           try {
-            const res = await this.$apollo.mutate({
-              mutation: auth.LOG_IN,
-              variables: {
+            const res = await this.$apollo.mutate(
+              auth.LOG_IN({
                 email: this.loginForm.email,
                 password: this.loginForm.password
-              }
-            });
+              })
+            );
             this.$store.commit("updateAuth", res.data.login);
             this.$message({
               message: `Welcome, ${res.data.login.user.name}!`,

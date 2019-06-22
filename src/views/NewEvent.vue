@@ -1,57 +1,30 @@
 <template>
   <div class="create-event-form">
     <h3>CREATE NEW EVENT</h3>
-    <el-form ref="create-event-form" :model="newEvent" :rules="formRules">
-      <el-form-item prop="name">
-        <label>Event name</label>
-        <el-input
-          v-model="newEvent.name"
-          type="text"
-          tabindex="1"
-          maxlength="50"
-        ></el-input>
-      </el-form-item>
-      <el-form-item prop="startAt">
-        <label>Event starts at</label>
-        <el-date-picker
-          v-model="newEvent.startAt"
-          name="start time"
-          type="datetime"
-          tabindex="2"
-          clearable
-          picker-options="pickerOptions"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item prop="maxSeats">
-        <label>Maximum seats</label>
-        <el-slider
-          v-model="newEvent.maxSeats"
-          :min="10"
-          :max="500"
-          :step="10"
-          :marks="marks"
-        >
-        </el-slider>
-      </el-form-item>
+    <event-form @FormValidated="createEvent" />
 
-      <el-button class="clear-button" @click="clearForm" :disabled="loading"
-        >Clear</el-button
-      >
-      <el-button
-        class="create-button"
-        type="primary"
-        @click="createEvent"
-        :loading="loading"
-        >Create event</el-button
-      >
-    </el-form>
+    <el-button class="clear-button" @click="clearForm" :disabled="loading"
+      >Clear</el-button
+    >
+    <el-button
+      class="create-button"
+      type="primary"
+      @click="triggerValidate"
+      :loading="loading"
+      >Create event</el-button
+    >
   </div>
 </template>
 
 <script>
 import events from "@/graphql/events";
+import EventForm from "@/components/EventForm.vue";
+import EventBus from "@/EventBus";
 
 export default {
+  components: {
+    EventForm
+  },
   data() {
     return {
       newEvent: {
@@ -93,30 +66,28 @@ export default {
   },
   methods: {
     clearForm() {
-      this.$refs["create-event-form"].resetFields();
+      EventBus.$emit("clear-event-form");
     },
-    createEvent() {
-      this.$refs["create-event-form"].validate(async valid => {
-        if (valid) {
-          this.loading = true;
-          try {
-            const res = await this.$apollo.mutate({
-              mutation: events.CREATE,
-              variables: {
-                ...this.newEvent
-              }
-            });
-            this.$store.commit("updateEventDetails", res.data.createEvent);
-            this.$router.push("/dashboard/event");
-          } catch (err) {
-            this.$message({
-              message: err.message,
-              type: "error"
-            });
-          }
-          this.loading = false;
+    triggerValidate() {
+      EventBus.$emit("validate-event-form");
+    },
+    async createEvent(valid) {
+      if (valid) {
+        this.loading = true;
+        try {
+          const res = await this.$apollo.mutate(
+            events.CREATE({ ...this.newEvent })
+          );
+          this.$store.commit("updateEventDetails", res.data.createEvent);
+          this.$router.push("/dashboard/event");
+        } catch (err) {
+          this.$message({
+            message: err.message,
+            type: "error"
+          });
         }
-      });
+        this.loading = false;
+      }
     }
   }
 };
@@ -124,18 +95,6 @@ export default {
 
 <style lang="scss">
 .create-event-form {
-  max-width: 80%;
-  margin: 0 auto;
-
-  label {
-    display: block;
-    text-align: left;
-  }
-
-  .el-date-editor {
-    width: 100%;
-  }
-
   .create-button {
     margin-top: 50px;
   }

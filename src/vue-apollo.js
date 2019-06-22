@@ -9,9 +9,11 @@ Vue.use(VueApollo);
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "http://192.168.1.8:4000/"
+  uri: "http://34.67.147.26:4000/"
 });
 
+// Includes token to every request header
+// IMPORTANT: without setContext, new token won't be added to header
 const authLink = setContext((_, { headers }) => {
   const token = window.localStorage.getItem("apollo-token");
   return {

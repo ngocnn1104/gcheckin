@@ -218,14 +218,13 @@ export default {
         if (valid) {
           this.loading = true;
           try {
-            const res = await this.$apollo.mutate({
-              mutation: auth.SIGN_UP,
-              variables: {
+            const res = await this.$apollo.mutate(
+              auth.SIGN_UP({
                 name: this.signupForm.name,
                 email: this.signupForm.email,
                 password: this.signupForm.password
-              }
-            });
+              })
+            );
             this.$store.commit("updateAuth", res.data.signup);
             this.$message({
               message: `Welcome, ${res.data.signup.user.name}!`,

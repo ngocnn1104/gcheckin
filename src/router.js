@@ -41,13 +41,13 @@ export default new Router({
           path: "all-events",
           name: "Manage events",
           component: () =>
-            import(/* webpackChunkName: "events" */ "./views/Signup.vue")
+            import(/* webpackChunkName: "events" */ "./views/AllEvents")
         },
         {
           path: "event",
           name: "Event details",
           component: () =>
-            import(/* webpackChunkName: "events" */ "./views/Event.vue")
+            import(/* webpackChunkName: "events" */ "./views/Event/index.vue")
         }
       ]
     }
