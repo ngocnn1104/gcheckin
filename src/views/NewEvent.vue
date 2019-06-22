@@ -27,11 +27,6 @@ export default {
   },
   data() {
     return {
-      newEvent: {
-        name: "",
-        startAt: null,
-        maxSeats: 100
-      },
       formRules: {
         name: [
           {
@@ -76,7 +71,7 @@ export default {
         this.loading = true;
         try {
           const res = await this.$apollo.mutate(
-            events.CREATE({ ...this.newEvent })
+            events.CREATE({ ...this.$store.state.eventDetails })
           );
           this.$store.commit("updateEventDetails", res.data.createEvent);
           this.$router.push("/dashboard/event");

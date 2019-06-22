@@ -32,7 +32,7 @@
           ></el-date-picker>
         </el-form-item>
       </el-col>
-      <el-col :xs="24" :sm="12">
+      <!-- <el-col :xs="24" :sm="12">
         <el-form-item prop="endAt">
           <label>Event ends at</label>
           <el-date-picker
@@ -45,7 +45,7 @@
             @change="value => updateSingleEventDetail({ key: 'endAt', value })"
           ></el-date-picker>
         </el-form-item>
-      </el-col>
+      </el-col> -->
     </el-row>
 
     <el-form-item prop="maxSeats">
