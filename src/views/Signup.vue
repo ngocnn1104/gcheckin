@@ -130,6 +130,12 @@
         />
         Google
       </el-button>
+
+      <div style="color: white; font-size: 12px; font-style: italic;">
+        Already have an account? Log in
+        <router-link to="/" style="text-decoration: underline">here</router-link
+        >.
+      </div>
     </el-form>
   </div>
 </template>
@@ -181,11 +187,7 @@ export default {
     };
   },
   mounted() {
-    if (this.signupForm.email === "") {
-      this.$refs.email.focus();
-    } else if (this.signupForm.password === "") {
-      this.$refs.password.focus();
-    }
+    this.$refs.name.focus();
   },
   methods: {
     checkCapslock({ shiftKey, key } = {}) {

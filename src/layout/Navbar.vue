@@ -75,8 +75,9 @@ export default {
       this.$store.commit("toggleSidebar");
     },
     async logout() {
-      // await this.$store.dispatch("user/logout");
-      // this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      this.$router.push("/");
+      window.localStorage.removeItem("apollo-token");
+      window.localStorage.removeItem("auth");
     }
   }
 };
