@@ -167,6 +167,7 @@ export default {
               })
             );
             this.$store.commit("updateAuth", res.data.login);
+            window.localStorage.setItem("auth", JSON.stringify(res.data.login));
             this.$message({
               message: `Welcome, ${res.data.login.user.name}!`,
               type: "success"

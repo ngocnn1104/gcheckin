@@ -107,10 +107,12 @@ export default {
   created() {
     EventBus.$on("validate-event-form", this.validateForm);
     EventBus.$on("clear-event-form", this.clearForm);
+    EventBus.$on("clear-validate", this.clearValidate);
   },
   beforeDestroy() {
     EventBus.$off("validate-event-form", this.validateForm);
     EventBus.$off("clear-event-form", this.clearForm);
+    EventBus.$off("clear-validate", this.clearValidate);
   },
   methods: {
     ...mapMutations(["updateSingleEventDetail", "resetEventDetails"]),
@@ -119,8 +121,11 @@ export default {
       this.$emit("FormValidated", valid);
     },
     clearForm() {
-      this.$refs["event-form"].clearValidate();
+      this.clearValidate();
       this.resetEventDetails();
+    },
+    clearValidate() {
+      this.$refs["event-form"].clearValidate();
     }
   }
 };

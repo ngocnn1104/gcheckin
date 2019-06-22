@@ -65,7 +65,10 @@ export default {
     Hamburger
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "device", "username"])
+    ...mapGetters(["sidebar", "avatar", "device"]),
+    username() {
+      return JSON.parse(window.localStorage.getItem("auth")).user.name;
+    }
   },
   methods: {
     toggleSideBar() {

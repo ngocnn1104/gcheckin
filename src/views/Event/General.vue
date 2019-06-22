@@ -1,7 +1,11 @@
 <template>
   <div>
     <event-form @FormValidated="updateEvent" />
-    <el-button type="primary" style="margin-top: 30px;" @click="triggerValidate"
+    <el-button
+      type="primary"
+      style="margin-top: 30px;"
+      :loading="loading"
+      @click="triggerValidate"
       >Save</el-button
     >
   </div>
@@ -17,6 +21,11 @@ export default {
   components: {
     EventForm
   },
+  data() {
+    return {
+      loading: false
+    };
+  },
   computed: {
     ...mapGetters(["eventDetails"])
   },
@@ -26,6 +35,7 @@ export default {
     },
     async updateEvent(valid) {
       if (valid) {
+        this.loading = true;
         const {
           id,
           name,
@@ -48,12 +58,18 @@ export default {
             })
           );
           this.$store.commit("updateEventDetails", res.data.updateEvent);
+          EventBus.$emit("clear-validate");
+          this.$message({
+            message: "Event saved.",
+            type: "success"
+          });
         } catch (err) {
           this.$message({
             message: err.message,
             type: "error"
           });
         }
+        this.loading = false;
       }
     }
   }

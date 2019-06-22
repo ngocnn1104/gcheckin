@@ -2,7 +2,10 @@
   <div>
     <Navbar />
     <Sidebar v-if="!$route.fullPath.includes('/event')" />
-    <router-view class="main-content" />
+    <router-view
+      class="main-content"
+      :class="{ 'full-width': $route.fullPath.includes('/event') }"
+    />
   </div>
 </template>
 
@@ -18,6 +21,10 @@ export default {
 <style lang="scss">
 .main-content {
   margin: 20px 10px 0 60px;
+
+  &.full-width {
+    margin-left: 0px;
+  }
 }
 
 .sidebar {
